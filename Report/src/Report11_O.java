@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Report11 {
+public class Report11_O {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
@@ -18,20 +18,7 @@ public class Report11 {
 		File work1 = new File("c:\\tmp\\" + str +".txt");
 		
 		// 학생 입력 및 파일쓰기
-		try {
-			FileWriter fw = new FileWriter(work1); 
-			BufferedWriter bw = new BufferedWriter(fw); 
-			PrintWriter pw = new PrintWriter(bw);
-			
-			for (int i = 0; i < 3; i++) {
-				System.out.print((i+1) + "번째 학생의 이름을 입력해주세요 = ");
-				str1[i] = sc.next();
-				pw.println(str1[i]);
-			}
-			pw.close();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		input(str1, work1);
 		
 		// 파일 읽기 및 콘솔출력
 		try {
@@ -55,19 +42,7 @@ public class Report11 {
 		File work2 = new File("c:\\tmp\\work2.txt");
 		
 		// 파일 쓰고 저장
-		try {
-			FileWriter fw1 = new FileWriter(work2);
-			BufferedWriter bw1 = new BufferedWriter(fw1);
-			PrintWriter pw1 = new PrintWriter(bw1);
-			
-			pw1.println("홍길동-24-서울시");
-			pw1.println("성춘향-16-남원시");
-			pw1.println("일지매-22-부산시");
-			
-			pw1.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+		write(work2);		
 		
 		//파일 읽기 및 콘솔 출력
 		try {
@@ -86,44 +61,40 @@ public class Report11 {
 		}
 		System.out.println("3명의 나이의 합 = " + sum);		
 	}
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	static void input() {
+	static void input(String[] str1, File work1) {
 		Scanner sc = new Scanner(System.in);
-		
+		try {
+			FileWriter fw = new FileWriter(work1); 
+			BufferedWriter bw = new BufferedWriter(fw); 
+			PrintWriter pw = new PrintWriter(bw);
+			
+			for (int i = 0; i < 3; i++) {
+				System.out.print((i+1) + "번째 학생의 이름을 입력해주세요 = ");
+				str1[i] = sc.next();
+				pw.println(str1[i]);
+			}
+			pw.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	static void write() {
-		
+	static void write(File work2) {
+		try {
+			FileWriter fw1 = new FileWriter(work2);
+			BufferedWriter bw1 = new BufferedWriter(fw1);
+			PrintWriter pw1 = new PrintWriter(bw1);
+			
+			pw1.println("홍길동-24-서울시");
+			pw1.println("성춘향-16-남원시");
+			pw1.println("일지매-22-부산시");
+			
+			pw1.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
-	
-	static void read() {
-		
-	}
-	
-	static void save() {
-		
-	}
-	
-	static void print() {
-		
-	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
