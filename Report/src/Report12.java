@@ -30,7 +30,14 @@ public class Report12 {
 		 */
 		Scanner sc = new Scanner(System.in);
 		
-		String student[][] = new String[20][7];
+//		String student[][] = new String[20][7];
+		// 더미데이터
+		String student[][] = {
+				{"홍길동", "23", "167.1", "부산", "90", "80", "70"},
+				{"이지매", "22", "155.4", "서울", "50", "30", "40"},
+				{"복덕방", "24", "159.4", "서울", "70", "10", "40"},				
+		};
+		
 		String column[] = {"이름", "나이", "신장", "주소", "국어", "영어", "수학"}; //
 		int count = 0 ;
 	
@@ -210,53 +217,75 @@ public class Report12 {
 	// TODO 학생정보검색		
 	static int foundStudent(String student[][], String name) {
 		int count = 0;
+		boolean b = false;
 		for (int i = 0; i < student.length; i++) {
-			boolean b = name.equals(student[i][0]);
+			b = name.equals(student[i][0]);
 			if(b == true) {
 				count = i;
 				break;
 			}
-			else {
-				System.out.println("학생 정보를 찾을 수 없습니다");
-				count = -1;
-				return count;
-			}
+		}
+		if(b == false) {
+			System.out.println("학생 정보를 찾을 수 없습니다");
+			count = -1;
 		}
 		return count;
 	}
 	
 	// TODO 학생정보저장	
 	static void savedata(String student[][], String colunm[]) {
-		File file = new File("c:\\tmp\\Student.txt");
+		File f = new File("c:\\tmp\\Student.txt");
 		
 		try {
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter pw = new PrintWriter(bw);
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(f)));
 			
-			for (int i = 0; i < student.length; i++) {
+		/*	for (int i = 0; i < student.length; i++) {
 				if(student[i][0] == null) break;
+	// null일 경우에만 생각했는데 학생정보 삭제 했을경우 "" 이렇게 저장되도록 하였기 때문에 이부분도 상정해야함
 				for (int j = 0; j < student[0].length; j++) {
 					pw.println(colunm[j] + " = " + student[i][j]);
 				}				
+			}*/
+			// 토큰을 집어 넣고 내용을 저장
+			for (int i = 0; i < student.length; i++) {
+				if(student[i][0] == null && student[i][0] == "") break;
+				for (int j = 0; j < student[0].length; j++) {
+					if(j==0) {
+						pw.print(student[i][j]);
+						j++;
+					}
+					pw.print(" - " + student[i][j]);
+				}
+				pw.println();
 			}
-			
-			pw.close();	
+	// 또한 강사님 생각은 "-" 토큰을 이용하여 내용을 저장하고 불러올때 
+	// 토큰을 제거해서 2차원 배열에 다시 집어 넣을 수 있도록 한다
+			pw.close();
+			System.out.println("파일이 정상적으로 저장되었습니다");
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("파일이 정상적으로 저장되지 못했습니다");
 		}		
 	}
 	
 	// TODO 학생정보불러오기
 	static void loaddata() {
-		File file = new File("c:\\tmp\\Student.txt");
+		File f = new File("c:\\tmp\\Student.txt");
 		
 		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
+			BufferedReader br = new BufferedReader(new FileReader(f));
 			
 			String str = "";
+			int count = 0;
+		/*	while((str = br.readLine()) != null) {
+				String data[] = str.split("-");
+				student[count][0] = data[0];
+			}
+			br.close();
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return student;
+		}			*/
 			while((str = br.readLine()) != null) {
 				System.out.println(str);
 			}
@@ -264,7 +293,7 @@ public class Report12 {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	// TODO 학생정보전체출력
