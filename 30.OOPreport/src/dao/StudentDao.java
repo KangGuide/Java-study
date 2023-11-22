@@ -11,14 +11,17 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 import dto.StudentDto;
+import io.FileIO;
 
 // Data Access Object : 데이터를 취급하는 클래스
 public class StudentDao {
 	Scanner sc = new Scanner(System.in);
 	
 	// 학생 데이터 관리 배열
+	FileIO fio = new FileIO();
 	private StudentDto student[];
 	private int count;
+	
 	
 
 	//추가, 삭제, 검색, 수정 (CRUD)
@@ -156,7 +159,13 @@ public class StudentDao {
 		}
 		return findIndex;
 	}
-	
+	public void save() {
+		fio.Datasave(student);
+	}
+	public void load(){
+			student = fio.Load();
+	}
+	/*
 	public void save() {
 		File f = new File("c:\\tmp\\student.txt");
 		
@@ -206,7 +215,7 @@ public class StudentDao {
 				String data[] = str.split("-");
 				student[count] = new StudentDto(data[0], Integer.parseInt(data[1]), Double.parseDouble(data[2]),
 						data[3], Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]));
-				/*
+				------
 				student[count].setName(data[0]);	// 이름
 				student[count].setAge(Integer.parseInt(data[1]));	// 나이
 				student[count].setHeight(Double.parseDouble(data[2]));	// 키
@@ -214,7 +223,7 @@ public class StudentDao {
 				student[count].setKor(Integer.parseInt(data[4]));	// 국어
 				student[count].setEng(Integer.parseInt(data[5]));	// 영어
 				student[count].setMath(Integer.parseInt(data[6]));	// 수학
-				*/
+				------
 				count++;				
 			}			
 			br.close();
@@ -225,7 +234,7 @@ public class StudentDao {
 			e.printStackTrace();
 		}		
 	}	
-	
+	*/
 	
 	
 	
