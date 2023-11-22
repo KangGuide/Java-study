@@ -13,11 +13,70 @@ import dto.StudentDto;
 
 public class FileIO {
 	
+	File file;
 	StudentDto dto = new StudentDto();
 	
+	public FileIO(String filename) {
+		file = new File("c:\\temp\\" + filename + ".txt");
+	}
+	
 	public void Create(String filename) {
+		try {
+			if(file.createNewFile()) {
+				System.out.println("파일 생성 성공!");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
+	public void Datasave(String arr[]) {
+		try {
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+			
+			for (int i = 0; i < arr.length; i++) {
+				pw.println(arr[i]);
+			}
+			pw.close();	
+			
+			System.out.println("성공적으로 저장되었습니다");
+			
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}	
+	}
+	public String[] Dataload() {
+		String arr[] = null;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			
+			String str = "";
+			int count = 0;
+			// 데이터의 갯수를 카운터
+			while((str = br.readLine()) != null) {
+				count++;
+			}
+			arr = new String[count];
+			// 파일의 처음 위치로
+			br = new BufferedReader(new FileReader(file));
+			
+			// 데이터 읽기
+			int i = 0;
+			while((str = br.readLine()) != null) {
+				arr[i] = str;
+				i++;
+			}
+			
+	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
 		
 	public void Datasave(StudentDto[] student) {
 		File f = new File("c:\\tmp\\student.txt");

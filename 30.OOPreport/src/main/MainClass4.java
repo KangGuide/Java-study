@@ -34,7 +34,7 @@ public class MainClass4 {
 				dao.delete();
 			break;
 			case 3:
-				dao.search(null);
+				dao.select();
 				break;
 			case 4:
 				dao.update();
