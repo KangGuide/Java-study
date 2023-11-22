@@ -87,6 +87,11 @@ public class StudentDto {
 		return "StudentDto [name=" + name + ", age=" + age + ", height=" + height + ", address=" + address + ", kor="
 				+ kor + ", eng=" + eng + ", math=" + math + "]";
 	}
+	
+	public void print() {
+		System.out.println("이름:" + name + " 나이:" + age + " 신장:" + height + " 주소:" + address + " 국어:"
+				+ kor + " 영어:" + eng + " 수학:" + math);
+	}
 
 	
 	
