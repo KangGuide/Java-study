@@ -9,14 +9,12 @@ public class Document {
 		// 연습
 		// 어려운거 학생관리 프로그램 가계부 주소록
 
-		double num = (int)(Math.random()*2)+1;
-		
-		System.out.println(num);
-		
-		//int 0, 1, 2
-		//double 
-
-		
+		/*
+		 random game
+		 70 ~ 100 -> random
+		 user input <= 15
+		 play
+		*/
 		
 		
 

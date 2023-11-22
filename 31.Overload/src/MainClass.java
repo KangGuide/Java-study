@@ -10,7 +10,6 @@ public class MainClass {
 		 	imageDraw(int x, int y)
 		 	imageDraw(int x, int y, int a) -> 0.0 ~ 1.0
 		 	
-		 	
 		*/
 		
 		func();

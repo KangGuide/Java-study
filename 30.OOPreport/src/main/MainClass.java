@@ -1,11 +1,11 @@
 package main;
 
-import Student.Student;
+import dao.StudentDao;
 
 public class MainClass {
 
 	public static void main(String[] args) {
-		Student s = new Student();
+		StudentDao s = new StudentDao();
 		s.name = "홍길동";
 		s.ban = 1;
 		s.no = 1;
