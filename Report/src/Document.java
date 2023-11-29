@@ -1,7 +1,7 @@
-import java.lang.reflect.InaccessibleObjectException;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Document {
 
@@ -9,12 +9,6 @@ public class Document {
 		// 연습
 		// 어려운거 학생관리 프로그램 가계부 주소록
 
-		/*
-		 random game
-		 70 ~ 100 -> random
-		 user input <= 15
-		 play
-		*/
 		
 		
 

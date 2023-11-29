@@ -15,6 +15,7 @@ public class Report13 {
 	public static void main(String[] args) {
 		// TODO 과제1
 		
+				
 		Point3D p1 = new Point3D(1,2,3);
 		Point3D p2 = new Point3D(1,2,3);
 		System.out.println(p1);
@@ -53,7 +54,6 @@ public class Report13 {
 				new DrawRobot()};
 				for(int i=0; i< arr.length;i++)
 				action(arr[i]);
-		
 		
 
 	}

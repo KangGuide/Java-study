@@ -19,7 +19,7 @@ public class StudentDao {
 	
 	// 학생 데이터 관리 배열
 	FileIO fio = new FileIO("student");
-	private StudentDto student[];
+	private StudentDto student[];  
 	private int count;
 	
 	

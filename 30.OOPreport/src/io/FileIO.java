@@ -17,7 +17,7 @@ public class FileIO {
 	StudentDto dto = new StudentDto();
 	
 	public FileIO(String filename) {
-		file = new File("c:\\temp\\" + filename + ".txt");
+		file = new File("c:\\tmp\\" + filename + ".txt");
 	}
 	
 	public void Create(String filename) {
