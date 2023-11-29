@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,7 +56,7 @@ public class BaseballDao {
 				System.out.print("방어율 >> ");
 				double defence = sc.nextDouble();
 			
-				hlist.add(PitcherDto(number, name, age, height, position, win, lose, defence));
+				hlist.add(new PitcherDto(number, name, age, height, position, win, lose, defence));
 				 
 			}
 			else {
@@ -68,8 +69,8 @@ public class BaseballDao {
 				System.out.print("타율 >> ");
 				double hivAvg = sc.nextDouble();
 				
-				human[count] = new BatterDto(number, name, age, height, position, batcount, hit, hivAvg);
-				count++; 
+				hlist.add(new BatterDto(number, name, age, height, position, batcount, hit, hivAvg));
+				
 			}
 						
 			System.out.print("그만입력하시겠습니까? (네/아니요) >> ");
@@ -78,21 +79,16 @@ public class BaseballDao {
 			
 		}
 	}
-	private HumanDto PitcherDto(int number, String name, int age, double height, String position, int win, int lose,
-			double defence) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	// TODO 검색함수
 	int search(String name) {
-		int findIndex = -1;
-		for (int i = 0; i < human.length; i++) {
-			if(name.equals(human[i].getName())) { // 찾았다
+		for (int i = 0; i < hlist.size(); i++) {
+			HumanDto h = hlist.get(i);
+			if (h.getName().equals(name)) {
 				findIndex = i;
 				break;
 			}
-		}
+		  }
 		return findIndex;
 	}
 	
@@ -102,13 +98,13 @@ public class BaseballDao {
 		System.out.print("삭제하고 싶은 선수의 이름 >> ");
 		String name = sc.next();
 		
-		int findIndex = search(name);
+		findIndex = search(name);
 		
 		if(findIndex != -1) {	// 찾았음
-			human[findIndex] = null;
-			System.out.println(name + "선수의 데이터를 삭제하였습니다");
+			hlist.remove(findIndex);
+			System.out.println(name + "학생의 데이터를 삭제하였습니다");
 		}else {
-			System.out.println("선수명단에 없습니다");
+			System.out.println("학생명단에 없습니다");
 		}	
 	}
 	
@@ -117,51 +113,21 @@ public class BaseballDao {
 		System.out.print("검색하고 싶은 선수의 이름 >> ");
 		String name = sc.next();
 		
-		// 동명이인 찾는 방법 (하지만 리스트 함수를 배우고 나면 이렇게 코드를 만들진 않는다)
-		int count = 0;
-		for (int i = 0; i < human.length; i++) {
-			HumanDto h = human[i];
-			if(h != null && h.getName().equals("")) {
-				if (name.equals(h.getName())) {
-					count++;
-				}
+		List<HumanDto> findlist = new ArrayList<HumanDto>();
+		boolean b = true;
+		for (int i = 0; i < hlist.size(); i++) {
+			HumanDto h = hlist.get(i);
+			if (h.getName().equals(name)) {
+				findlist.add(h);
+			}
+			else b = false;
+		}
+		if (b = true) {
+			for (HumanDto s : findlist) {
+				  System.out.println(s.print());
 			}
 		}
-		// 선수이름을 잘못 검색한경우
-		if(count == 0) {
-			System.out.println("선수 명단에 없습니다");
-			return;
-		}
-		// 1명이상일 경우 배열을 확보
-		HumanDto findHuman[] = new HumanDto[count];
-		int c = 0;
-		for (int i = 0; i < human.length; i++) {
-			HumanDto h = human[i];
-			if(h != null && h.getName().equals("")) {
-				if (name.equals(h.getName())) {
-					findHuman[c] = human[i];
-					c++;
-				}
-			}
-		}
-		System.out.println("검색된 선수 명단입니다");
-		for (int i = 0; i < findHuman.length; i++) {
-			System.out.println(findHuman[i].print());
-		}
-		
-		/*
-		// 동명이인은 찾지못하는 검색방식
-		int findIndex = search(name);
-		
-		if(findIndex != -1) {
-			HumanDto dto = human[findIndex];
-			if(dto != null && !dto.getName().equals("")) {
-				System.out.println(dto.toString());
-			}				
-		}else {
-			System.out.println("선수명단에 없습니다");
-		}
-		*/	
+		else System.out.println("선수명단에 없습니다");	
 	}
 	
 	// TODO 선수수정
@@ -169,7 +135,7 @@ public class BaseballDao {
 		System.out.print("수정하고 싶은 선수의 이름 >> ");
 		String name = sc.next();
 		
-		int findIndex = search(name);
+		findIndex = search(name);
 		 
 		if(findIndex == -1) {
 			System.out.println("선수명단에 없습니다");
@@ -177,8 +143,8 @@ public class BaseballDao {
 		}		
 		System.out.println("수정할 데이터를 찾았습니다");
 		
-		if(human[findIndex] instanceof PitcherDto) {
-			PitcherDto pd = (PitcherDto)human[findIndex];
+		if(hlist.get(findIndex) instanceof PitcherDto) {
+			PitcherDto pd = (PitcherDto)hlist.get(findIndex);
 			System.out.print("승수 >> ");
 			String win = sc.next();
 			
@@ -192,8 +158,8 @@ public class BaseballDao {
 			pd.setLose(Integer.parseInt(lose));
 			pd.setDefence(Double.parseDouble(defence));
 		}
-		else if(human[findIndex] instanceof BatterDto) {
-			BatterDto bd = (BatterDto)human[findIndex];
+		else if(hlist.get(findIndex) instanceof BatterDto) {
+			BatterDto bd = (BatterDto)hlist.get(findIndex);
 			System.out.print("batcount >> ");
 			String batcount = sc.next();
 			
@@ -209,107 +175,54 @@ public class BaseballDao {
 		}
 		System.out.println("수정을 완료했습니다");		
 	}
-	// TODO 타율순위 조회
+	// TODO 타율순위 조회 (내림차순)
 	public void batranking() {
-		String Rank[][] = new String[20][2];	
-		String temp[][] = new String[20][2];
-		int count = 1;
-		// 타율 및 이름 불러오기
-		for (int i = 0; i < human.length; i++) {
-			if(human[i] != null && "타자".equals(human[i].getPosition()) == true) {
-				BatterDto bd = (BatterDto)human[i];
-				Rank[i][0] = Double.toString(bd.getHivAvg());
-				Rank[i][1] = bd.getName();
+	
+		List<BatterDto> ba = new ArrayList<BatterDto>();
+		for (int i = 0; i < hlist.size(); i++) {
+			HumanDto temp = hlist.get(i);
+//			if (hlist.get(i) instanceof BatterDto) 이거도 가능하고
+//			if (temp instanceof BatterDto) 이거도 아래와 동일하다	
+			if (temp.getPosition().equals("타자")) {
+				ba.add((BatterDto) temp);
 			}
 		}
-		// 타율 높은순서로 정렬
-		for (int i = 0; i < Rank.length - 1; i++) {
-			if(Rank[i][0] != null && Rank[i][0] != "0.0") {
-			for (int j = i+1; j < Rank.length; j++) {
-				if(Rank[j][0] != null && Rank[j][0] != "0.0") {
-					if (Double.parseDouble(Rank[i][0]) < Double.parseDouble(Rank[j][0])) {
-						temp[i][0] = Rank[i][0];
-						Rank[i][0] = Rank[j][0];
-						Rank[j][0] = temp[i][0];
-						temp[i][1] = Rank[i][1];
-						Rank[i][1] = Rank[j][1];
-						Rank[j][1] = temp[i][1];
-					}
-				}
-			}
-			}
-		}			
-		// 출력
-		for (int i = 0; i < human.length; i++) {
-			if (Rank[i][0] != "0.0" && Rank[i][0] != null) {
-				System.out.println("타율" + count + "등 " + Rank[i][1] + "선수 타율" + Rank[i][0] + "입니다");
-				count++;
-			}
+		if(ba.size() < 2) {
+			System.out.println("선수가 1명이거나 순위를 정할 수 없습니다");
+			return;
+		}
+		Collections.sort(ba, Collections.reverseOrder());
+		int count = 1;
+		for (BatterDto s : ba) {
+			System.out.println("타율" + count + "등 " + s.getName() + "선수 타율" + s.getHivAvg() + "입니다");
+			count++;
 		}	
 	}
-	
-	/*
-	public void batSort() {
-		
-		HumanDto humanB[] = new HumanDto[10];
-		
-		// 타자만으로 (배열)구성
-		int count = 0;
-		for (int i = 0; i < human.length; i++) {
-			HumanDto h = human[i];
-			if(h != null && h.getName().equals("") == false) {
-				if(h instanceof BatterDto) {
-					humanB[count] = h;
-					count++;
-				}
-			}
-		}		
-		
-//		for (HumanDto h : humanB) {
-//			if(h != null) {
-//				System.out.println(h.info());
-//			}
-//		}			
-		
-		// 순위(내림정렬)처리
-		HumanDto temp;
-		for (int i = 0; i < humanB.length - 1; i++) {
-			for (int j = i + 1; j < humanB.length; j++) {
-				
-				if(humanB[i] != null && !humanB[i].getName().equals("") 
-						&& humanB[j] != null && !humanB[j].getName().equals("")) {
-					
-					BatterDto b1 = (BatterDto)humanB[i];
-					BatterDto b2 = (BatterDto)humanB[j];
-					
-					if(b1.getHitAvg() < b2.getHitAvg()) {	// 비교는 타율로 한다
-						temp = humanB[i];
-						humanB[i] = humanB[j];
-						humanB[j] = temp;
-					}
-				}
-			}
-		}	 	 
-	*/
 
-	// TODO 방어율 순위 조회
+	// TODO 방어율 순위 조회 (오름차순)
 	public void pitranking() {
-		String Rank[][] = new String[20][2];	
-		String temp[][] = new String[20][2];
-		int count = 1;
-		// 타율 및 이름 불러오기
-		for (int i = 0; i < human.length; i++) {
-			if(human[i] != null && "투수".equals(human[i].getPosition()) == true) {
-				PitcherDto bd = (PitcherDto)human[i];
-				Rank[i][0] = Double.toString(bd.getDefence());
-				Rank[i][1] = bd.getName();
+	
+		List<PitcherDto> pi = new ArrayList<PitcherDto>();
+		for (int i = 0; i < hlist.size(); i++) {
+			HumanDto hu = hlist.get(i);
+			if (hu.getPosition().equals("투수")) {
+				pi.add((PitcherDto) hlist.get(i));
 			}
 		}
+		
+		String Rank[][] = new String[pi.size()][2];	
+		String temp[][] = new String[pi.size()][2];
+		
+		// 방어율 및 이름 불러오기
+		for (int i = 0; i < pi.size(); i++) {
+				PitcherDto pd = pi.get(i);
+				Rank[i][0] = Double.toString(pd.getDefence());
+				Rank[i][1] = pd.getName();
+			}
+		
 		// 방어율 낮은순서로 정렬
 		for (int i = 0; i < Rank.length - 1; i++) {
-			if(Rank[i][0] != null && Rank[i][0] != "0.0") {
 			for (int j = i+1; j < Rank.length; j++) {
-				if(Rank[j][0] != null && Rank[j][0] != "0.0") {
 					if (Double.parseDouble(Rank[i][0]) > Double.parseDouble(Rank[j][0])) {
 						temp[i][0] = Rank[i][0];
 						Rank[i][0] = Rank[j][0];
@@ -319,39 +232,32 @@ public class BaseballDao {
 						Rank[j][1] = temp[i][1];
 					}
 				}
-			}
-			}
-		}			
+			}			
 		// 출력
-		for (int i = 0; i < human.length; i++) {
-			if (Rank[i][0] != "0.0" && Rank[i][0] != null) {
-				System.out.println("방어율" + count + "등 " + Rank[i][1] + "선수 방어율" + Rank[i][0] + "입니다");
-				count++;
-			}
+		int count = 1;
+		for (int i = 0; i < Rank.length; i++) {
+			System.out.println("방어율" + count + "등 " + Rank[i][1] + "선수 방어율" + Rank[i][0] + "입니다");
+			count++;	
 		}	
 	}			
-	
+
 	// TODO 야구팀조회
 	public void allData() {
-		for (int i = 0; i < human.length; i++) {
-			HumanDto dto = human[i];
-				if(dto != null && dto.getNumber() != 0) {
-					System.out.println(dto.print());
-				}			
-		}
+		for (HumanDto h : hlist) {
+			  System.out.println(h.print());
+		  }
 	}
 	
 	// TODO 야구팀 데이터저장
 	public void save() {
 		// 실제로 삭제된 데이터를 제외한 (정상적인)데이터가 몇개?
 		fio.Create("BaseballTeam");
-		fio.Datasave(arr);
-		
+		fio.Datasave(hlist);		
 	}
 	
 	// TODO 데이터 불러오기
 	public void load() {
-		
+		hlist = fio.dataLoad();
 	}
 		
 }

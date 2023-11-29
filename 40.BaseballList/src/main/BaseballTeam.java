@@ -15,7 +15,7 @@ public class BaseballTeam {
 		while(true) {
 			System.out.println("========= 야구팀 프로그램 ==========");
 			System.out.println("1.선수추가");
-			System.out.println("2.선수삭제삭제");
+			System.out.println("2.선수삭제");
 			System.out.println("3.선수검색");
 			System.out.println("4.선수수정");
 			System.out.println("5.타율순위");

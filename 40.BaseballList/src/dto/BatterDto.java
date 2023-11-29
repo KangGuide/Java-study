@@ -1,6 +1,6 @@
 package dto;
 
-public class BatterDto extends HumanDto {
+public class BatterDto extends HumanDto implements Comparable<BatterDto>{
 
 	//변수 선언
 	private int batcount;
@@ -37,6 +37,14 @@ public class BatterDto extends HumanDto {
 
 	public void setHivAvg(double hivAvg) {
 		this.hivAvg = hivAvg;
+	}
+	
+	@Override
+	public int compareTo(BatterDto b) {
+		
+		if (this.hivAvg < b.hivAvg) return -1;
+		else if (this.hivAvg > b.hivAvg) return 1;
+		else return 0;
 	}
 
 	/*

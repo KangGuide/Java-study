@@ -3,13 +3,16 @@ package io;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-import dto.StudentDto;
+import dto.BatterDto;
+import dto.HumanDto;
+import dto.PitcherDto;
 
 public class BbFileIO {
 	File file;
@@ -29,12 +32,11 @@ public class BbFileIO {
 		}
 	}
 	
-	public void Datasave(String arr[]) {
+	public void Datasave(List<HumanDto> hlist) {
 		try {
 			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-			
-			for (int i = 0; i < arr.length; i++) {
-				pw.println(arr[i]);
+			for (HumanDto h : hlist) {
+				pw.println(h);
 			}
 			pw.close();	
 			
@@ -46,38 +48,36 @@ public class BbFileIO {
 	}
 
 	// 파일에 불러오기
-	public String[] dataLoad() {
-		
-		String arr[] = null;
+	public List<HumanDto> dataLoad() {
+		List<HumanDto> hlist = new ArrayList<HumanDto>();
+		List<String> temp = new ArrayList<String>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			
-			String str = "";
-			int count = 0;
-			// 데이터의 갯수를 카운터			
-			while((str = br.readLine()) != null) {
-				count++;
-			}
-			
-			arr = new String[count];		
-			// 파일의 처음 위치로 
-			br = new BufferedReader(new FileReader(file));
-			
 			// 데이터 읽기
-			int i = 0;
+			String str;
 			while((str = br.readLine()) != null) {
-				arr[i] = str;
-				i++;
+				temp.add(str);	
+			}
+			for (int i = 0; i < temp.size(); i++) {
+				String str1[] = temp.get(i).split("-");
+				if (str1[4].equals("투수")) {
+					hlist.add(new PitcherDto(Integer.parseInt(str1[0]), str1[1], Integer.parseInt(str1[2]), Double.parseDouble(str1[3]),
+							str1[4], Integer.parseInt(str1[5]), 
+							Integer.parseInt(str1[6]), Double.parseDouble(str1[7])));
+				}
+				else {
+					hlist.add(new BatterDto(Integer.parseInt(str1[0]), str1[1], Integer.parseInt(str1[2]), Double.parseDouble(str1[3]),
+							str1[4], Integer.parseInt(str1[5]), 
+							Integer.parseInt(str1[6]), Double.parseDouble(str1[7])));
+				}	
 			}
 			br.close();
-			
-		} catch (FileNotFoundException e) {			
-			e.printStackTrace();
-		} catch (IOException e) {			
-			e.printStackTrace();
+			System.out.println("파일을 성공적으로 불러왔습니다");
+		} catch (Exception e) {
+			System.out.println("파일을 불러오는과정에서 문제가 발생하였습니다");
 		}
-		
-		return arr;
+		return hlist;
 	}
 
 	
