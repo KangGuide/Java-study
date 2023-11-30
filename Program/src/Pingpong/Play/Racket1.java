@@ -5,6 +5,8 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import Pingpong.Main.MainClass;
+
 public class Racket1 extends JComponent{
 	
 	//라켓 크기 변수
@@ -18,17 +20,12 @@ public class Racket1 extends JComponent{
 	public void paint(Graphics g) {
 		g.setColor(Color.RED);
 		
-		if (Ball.y < PingPong.HEIGHT - height) {
-
+		if (Ball.y < MainClass.HEIGHT - height) {
 			g.fillRect(0, Ball.y, width, height);
-
-			} else {
-
-			g.fillRect(0, PingPong.HEIGHT - height, width, height);
-
-			}
+		} 
+		else {
+			g.fillRect(0, MainClass.HEIGHT - height, width, height);
+		}
 
 	}
-
-	
 }
